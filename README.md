@@ -73,24 +73,6 @@ x принадлежит [min(-a, 0), max(-a, 0)] с исключением x = 
 В 1 лабораторной работе блок-схем обязательна. Ниже представлен пример с лекции,
 реализованный с помощью `mermaid` - инструментом для рисования диаграмм и блок-схем.
 
-```markdown
-    ```mermaid
-        TD
-            A[Start] --> B[Ввод a, b]
-            B --> C{b == 0?}
-            C -- Да --> D[/Вывести: "b=0: выражение не определено. Решений нет."/] --> Z[End]
-            C -- Нет --> E[Вычислить r = -a]
-            E --> F{b > 0?}
-            F -- Да --> G[Составить интервалы, рассматривая x(x+a) >= 0 при x не равном 0, исключить x = 0]
-            F -- Нет --> H[Составить интервалы, рассматривая x(x+a) <= 0 при x не равном 0, исключить x = 0]
-            G --> I[Форматировать и вывести результат]
-            H --> I
-            I --> Z[End]
-    ``` 
-```
-
-
-
 ```mermaid
 graph TD
     A[Start] --> B[Ввод a, b]
@@ -111,20 +93,50 @@ graph TD
 
 Нужно вставить код прямо в отчет в блок:
 
-```markdown
-    ```java
-        class Main{
-            // Что-то далее
-        }
-    ``` 
-```
 
 Это будет выглядеть следующим образом:
 
 ```java
-class Main{
-    // Что-то далее
-}
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Введите a: ");
+        double a = sc.nextDouble();
+
+        System.out.print("Введите b: ");
+        double b = sc.nextDouble();
+
+        if (b == 0) {
+            System.out.println("Нет решений, так как b = 0, знаменатель не может быть равен нулю");
+            return;
+        }
+
+        System.out.println("Решаем неравенство (" + (a) + " + x)/(" + (b) + "*x) >= 0");
+
+        if (b > 0) {
+            if (a > 0) {
+                System.out.println("Решение: x ∈ (-∞, " + (-a) + "] ∪ (0, +∞)");
+            } else if (a == 0) {
+                System.out.println("Решение: x ∈ (-∞, 0) ∪ (0, +∞)");
+            } else { // a < 0
+                System.out.println("Решение: x ∈ (-∞, 0) ∪ [" + (-a) + ", +∞)");
+            }
+        } else { // b < 0
+            if (a > 0) {
+                System.out.println("Решение: x ∈ [" + (-a) + ", 0)");
+            } else if (a == 0) {
+                System.out.println("Решений нет.");
+            } else { // a < 0
+                System.out.println("Решение: x ∈ (0, " + (-a) + "]");
+            }
+        }
+
+        sc.close();
+    }
+
 ```
 
 ### 6. Анализ правильности решения
